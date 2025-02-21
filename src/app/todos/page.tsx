@@ -16,8 +16,15 @@ import { ITodos } from "@/app/types/StatusBoard.type";
 import { IToDoItem } from "@/app/types/ToDoItem.type";
 
 export default function ToDosPage(): JSX.Element {
-  const { todos, addTodo, deleteTodo, toggleEdit, updateContent, updateTodos } =
-    useTodos();
+  const {
+    todos,
+    addTodo,
+    deleteTodo,
+    toggleEdit,
+    updateContent,
+    updateTodos,
+    loading,
+  } = useTodos();
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -98,6 +105,7 @@ export default function ToDosPage(): JSX.Element {
               onDeleteTodo={deleteTodo}
               onToggleEdit={toggleEdit}
               onUpdateContent={updateContent}
+              loading={loading}
             />
             <StatusBoard
               title="진행중"
@@ -107,6 +115,7 @@ export default function ToDosPage(): JSX.Element {
               onDeleteTodo={deleteTodo}
               onToggleEdit={toggleEdit}
               onUpdateContent={updateContent}
+              loading={loading}
             />
             <StatusBoard
               title="완료"
@@ -116,6 +125,7 @@ export default function ToDosPage(): JSX.Element {
               onDeleteTodo={deleteTodo}
               onToggleEdit={toggleEdit}
               onUpdateContent={updateContent}
+              loading={loading}
             />
           </main>
         </DndContext>

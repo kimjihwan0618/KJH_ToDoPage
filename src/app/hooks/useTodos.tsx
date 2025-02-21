@@ -12,6 +12,7 @@ const DEFAULT_TODOS: ITodos = {
 
 export const useTodos = () => {
   const [todos, setTodos] = useState<ITodos>(DEFAULT_TODOS);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const addTodo = (status: IStatusBoardProps["status"]): void => {
     const id = Date.now();
@@ -89,6 +90,7 @@ export const useTodos = () => {
 
   useEffect(() => {
     initTodos();
+    setLoading(false);
   }, []);
 
   return {
@@ -99,5 +101,6 @@ export const useTodos = () => {
     updateContent,
     updateTodos,
     initTodos,
+    loading,
   };
 };

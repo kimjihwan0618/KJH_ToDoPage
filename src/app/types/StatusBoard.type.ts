@@ -12,6 +12,7 @@ export interface IStatusBoardProps {
     status: IStatusBoardProps["status"],
     content: string
   ) => void;
+  loading: boolean;
 }
 
 export interface ITodos {

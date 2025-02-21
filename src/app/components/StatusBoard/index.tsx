@@ -23,6 +23,7 @@ export default function StatusBoard({
   onDeleteTodo,
   onToggleEdit,
   onUpdateContent,
+  loading,
 }: IStatusBoardProps): JSX.Element {
   const { setNodeRef } = useDroppable({
     id: status,
@@ -46,7 +47,7 @@ export default function StatusBoard({
           <ul className="overflow-hidden relative">
             {todos.length === 0 && (
               <li className="text-center text-gray-500 py-4">
-                등록된 작업이 없습니다.
+                {loading ? "Loading..." : "등록된 작업이 없습니다."}
               </li>
             )}
             {todos.map((todo) => (
