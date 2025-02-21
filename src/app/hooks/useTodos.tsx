@@ -12,7 +12,7 @@ const DEFAULT_TODOS: ITodos = {
 
 export const useTodos = () => {
   const [todos, setTodos] = useState<ITodos>(DEFAULT_TODOS);
-
+  
   const addTodo = (status: IStatusBoardProps['status']): void => {
     const id = Date.now();
     const newTodoItem: IToDoItem = {
@@ -28,6 +28,11 @@ export const useTodos = () => {
     localStorage.setItem("todos", JSON.stringify(newTodo));
   }
 
+  const updateTodos = (newTodos: ITodos): void => {
+    setTodos(newTodos);
+    localStorage.setItem("todos", JSON.stringify(newTodos));
+  }
+
   const initTodos = (): void => {
     setTodos(JSON.parse(localStorage.getItem("todos") || JSON.stringify(DEFAULT_TODOS)));
   }
@@ -36,5 +41,5 @@ export const useTodos = () => {
     initTodos();
   }, []);
 
-  return { todos, addTodo, initTodos };
+  return { todos, addTodo, updateTodos, initTodos };
 };
