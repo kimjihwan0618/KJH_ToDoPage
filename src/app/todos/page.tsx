@@ -1,30 +1,11 @@
 'use client';
 
-import { JSX, useState } from 'react';
+import { JSX } from 'react';
 import StatusBoard from '../components/StatusBoard';
-import { IToDoItem } from '../types/ToDoItem.type';
-import { IStatusBoardProps } from '../types/StatusBoard.type';
+import { useTodos } from '../hooks/useTodos';
 
 export default function ToDosPage (): JSX.Element {
-  const [todoList, setTodoList] = useState<IToDoItem[]>([]);
-  const [progressList, setProgressList] = useState<IToDoItem[]>([]);
-  const [doneList, setDoneList] = useState<IToDoItem[]>([]);
-
-  // api
-  const addTodo = (status: IStatusBoardProps['status']): void => {
-    const newTodo: IToDoItem = {
-      id: Date.now(),
-      content: '새 작업',
-      isEdit: false,
-    };
-    if (status === 'todo') {
-      setTodoList([...todoList, newTodo]);
-    } else if (status === 'progress') {
-      setProgressList([...progressList, newTodo]);
-    } else if (status === 'done') {
-      setDoneList([...doneList, newTodo]);
-    }
-  };
+  const { todos, addTodo } = useTodos();
 
   return (
     <>
@@ -34,19 +15,19 @@ export default function ToDosPage (): JSX.Element {
           <StatusBoard
             title="시작 전"
             status="todo"
-            todos={todoList}
+            todos={todos.todo}
             onAddTodo={addTodo}
           />
           <StatusBoard
             title="진행중"
             status="progress"
-            todos={progressList}
+            todos={todos.progress}
             onAddTodo={addTodo}
           />
           <StatusBoard
             title="완료"
             status="done"
-            todos={doneList}
+            todos={todos.done}
             onAddTodo={addTodo}
           />
         </main>

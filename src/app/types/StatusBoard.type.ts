@@ -6,3 +6,9 @@ export interface IStatusBoardProps {
     todos: IToDoItem[];
     onAddTodo: (status: 'todo' | 'progress' | 'done') => void;
 }
+
+export interface ITodos {
+    todo: IToDoItem[];
+    progress: IToDoItem[];
+    done: IToDoItem[];
+}
