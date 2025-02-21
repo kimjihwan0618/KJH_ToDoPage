@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { JSX } from 'react';
-import StatusBoard from '../components/StatusBoard';
-import { useTodos } from '../hooks/useTodos';
+import { JSX } from "react";
+import StatusBoard from "@/app/components/StatusBoard";
+import { useTodos } from "@/app/hooks/useTodos";
 import {
   DndContext,
   DragEndEvent,
@@ -10,13 +10,14 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
-import { ITodos } from '../types/StatusBoard.type';
-import { IToDoItem } from '../types/ToDoItem.type';
+} from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
+import { ITodos } from "@/app/types/StatusBoard.type";
+import { IToDoItem } from "@/app/types/ToDoItem.type";
 
 export default function ToDosPage(): JSX.Element {
-  const { todos, addTodo, updateTodos } = useTodos();
+  const { todos, addTodo, deleteTodo, toggleEdit, updateContent, updateTodos } =
+    useTodos();
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -32,9 +33,12 @@ export default function ToDosPage(): JSX.Element {
     const overStatus = (over.data.current?.status || over.id) as keyof ITodos;
 
     if (activeStatus === overStatus && activeStatus in todos) {
-      // 같은 보드 내에서의 이동
-      const oldIndex = todos[activeStatus].findIndex((todo: IToDoItem) => todo.id.toString() === activeId);
-      const newIndex = todos[activeStatus].findIndex((todo: IToDoItem) => todo.id.toString() === overId);
+      const oldIndex = todos[activeStatus].findIndex(
+        (todo: IToDoItem) => todo.id.toString() === activeId
+      );
+      const newIndex = todos[activeStatus].findIndex(
+        (todo: IToDoItem) => todo.id.toString() === overId
+      );
 
       const newTodos: ITodos = {
         ...todos,
@@ -51,15 +55,22 @@ export default function ToDosPage(): JSX.Element {
     const activeStatus = active.data.current?.status as keyof ITodos;
     const overStatus = (over.data.current?.status || over.id) as keyof ITodos;
 
-    if (activeStatus !== overStatus && activeStatus in todos && overStatus in todos) {
-      // 다른 보드로의 이동
+    if (
+      activeStatus !== overStatus &&
+      activeStatus in todos &&
+      overStatus in todos
+    ) {
       const activeId = active.id;
-      const item = todos[activeStatus].find((todo: IToDoItem) => todo.id.toString() === activeId);
+      const item = todos[activeStatus].find(
+        (todo: IToDoItem) => todo.id.toString() === activeId
+      );
       if (!item) return;
 
       const newTodos: ITodos = {
         ...todos,
-        [activeStatus]: todos[activeStatus].filter((todo: IToDoItem) => todo.id.toString() !== activeId),
+        [activeStatus]: todos[activeStatus].filter(
+          (todo: IToDoItem) => todo.id.toString() !== activeId
+        ),
         [overStatus]: [...todos[overStatus], item],
       };
       updateTodos(newTodos);
@@ -68,7 +79,9 @@ export default function ToDosPage(): JSX.Element {
 
   return (
     <>
-      <h1 className="fixed top-0 text-2xl font-bold w-full p-8 bg-white z-20 shadow-sm">ToDoPage</h1>
+      <h1 className="fixed top-0 text-2xl font-bold w-full p-8 bg-white z-20 shadow-sm">
+        ToDoPage
+      </h1>
       <div className="h-screen pt-24">
         <DndContext
           sensors={sensors}
@@ -82,18 +95,27 @@ export default function ToDosPage(): JSX.Element {
               status="todo"
               todos={todos.todo}
               onAddTodo={addTodo}
+              onDeleteTodo={deleteTodo}
+              onToggleEdit={toggleEdit}
+              onUpdateContent={updateContent}
             />
             <StatusBoard
               title="진행중"
               status="progress"
               todos={todos.progress}
               onAddTodo={addTodo}
+              onDeleteTodo={deleteTodo}
+              onToggleEdit={toggleEdit}
+              onUpdateContent={updateContent}
             />
             <StatusBoard
               title="완료"
               status="done"
               todos={todos.done}
               onAddTodo={addTodo}
+              onDeleteTodo={deleteTodo}
+              onToggleEdit={toggleEdit}
+              onUpdateContent={updateContent}
             />
           </main>
         </DndContext>
@@ -101,4 +123,3 @@ export default function ToDosPage(): JSX.Element {
     </>
   );
 }
-        
