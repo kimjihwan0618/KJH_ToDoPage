@@ -74,6 +74,7 @@ export default function ToDosPage(): JSX.Element {
           sensors={sensors}
           onDragEnd={handleDragEnd}
           onDragOver={handleDragOver}
+          modifiers={[]}
         >
           <main className="grid grid-cols-3 gap-4 p-8">
             <StatusBoard

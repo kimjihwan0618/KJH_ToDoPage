@@ -18,11 +18,17 @@ export default function StatusBoard({ title, status, todos, onAddTodo }: IStatus
     });
 
     return (
-        <section id={status} className={`max-h-[max-content]`}>
+        <section id={status} className="max-h-[max-content]">
             <h2 className={`font-bold sticky rounded-tr-lg top-24 p-4 z-10 shadow ${bgColors[status]}`}>{title}</h2>
-            <div ref={setNodeRef} className={`overflow-y-auto p-4 max-h-[calc(100%-4rem)] ${bgColors[status]}`}>
-                <SortableContext items={todos.map(todo => todo.id.toString())} strategy={verticalListSortingStrategy}>
-                    <ul className="overflow-x-hidden">
+            <div 
+                ref={setNodeRef} 
+                className={`p-4 max-h-[calc(100%-4rem)] ${bgColors[status]} overflow-y-auto relative`}
+            >
+                <SortableContext 
+                    items={todos.map(todo => todo.id.toString())} 
+                    strategy={verticalListSortingStrategy}
+                >
+                    <ul className="overflow-hidden relative">
                         {todos.length === 0 && (
                             <li className="text-center text-gray-500 py-4">등록된 작업이 없습니다.</li>
                         )}
@@ -31,6 +37,7 @@ export default function StatusBoard({ title, status, todos, onAddTodo }: IStatus
                                 key={todo.id}
                                 {...todo}
                                 status={status}
+                                isEdit={todo.isEdit}
                             />
                         ))}
                     </ul>
